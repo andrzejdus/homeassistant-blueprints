@@ -37,7 +37,7 @@ action:
     target:
       entity_id: !input radiator_offset_number
     data:
-      value: >
+      value: >-
         {% set room_temperature = states(!input room_temperature_sensor) | float %}
         {% set radiator_temperature = state_attr(!input climate_entity, 'current_temperature') | float %}
         {% set radiator_temperature_offset = states(!input radiator_offset_number) | float %}
