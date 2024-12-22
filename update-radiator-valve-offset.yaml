@@ -1,6 +1,7 @@
 blueprint:
   name: Update radiator valve offset
   description: >
+    Version 1.
     Automatically updates the radiator valve offset based on room temperature
     and radiator temperature.
   domain: automation
