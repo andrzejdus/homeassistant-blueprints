@@ -44,7 +44,7 @@ action:
       name: Update Radiator Valve Offset
       message: >-
         {% set room_temperature = states(room_temperature_sensor_entity) | float %}
-        {% set radiator_temperature = state_attr(room_temperature_sensor_entity, 'current_temperature') | float %}
+        {% set radiator_temperature = state_attr(climate_entity, 'current_temperature') | float %}
         {% set radiator_temperature_offset = states(radiator_temperature_offset_number_entity) | float %}
         {% set new_radiator_temperature_offset = room_temperature - (radiator_temperature - radiator_temperature_offset) %}
         New offset {{ new_radiator_temperature_offset }}.
@@ -58,7 +58,7 @@ action:
     data:
       value: >-
         {% set room_temperature = states(room_temperature_sensor_entity) | float %}
-        {% set radiator_temperature = state_attr(room_temperature_sensor_entity, 'current_temperature') | float %}
+        {% set radiator_temperature = state_attr(climate_entity, 'current_temperature') | float %}
         {% set radiator_temperature_offset = states(radiator_temperature_offset_number_entity) | float %}
         {% set new_radiator_temperature_offset = room_temperature - (radiator_temperature - radiator_temperature_offset) %}
         {{ new_radiator_temperature_offset }}
