@@ -34,9 +34,9 @@ condition: []
 
 action:
   - variables:
-      room_temperature: "{{ states(input.room_temperature_sensor) | float }}"
-      radiator_temperature: "{{ state_attr(input.climate_entity, 'current_temperature') | float }}"
-      radiator_temperature_offset: "{{ states(input.radiator_offset_number) | float }}"
+      room_temperature: "{{ states(!input room_temperature_sensor) | float }}"
+      radiator_temperature: "{{ state_attr(!input climate_entity, 'current_temperature') | float }}"
+      radiator_temperature_offset: "{{ states(!input radiator_offset_number) | float }}"
   - service: logbook.log
     data:
       entity_id: automation.update_radiator_valve_offset_blueprint
