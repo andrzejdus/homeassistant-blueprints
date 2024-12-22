@@ -1,0 +1,46 @@
+blueprint:
+  name: Update Radiator Valve Offset
+  description: >
+    Automatically updates the radiator valve offset based on room temperature
+    and radiator temperature.
+  domain: automation
+  input:
+    climate_entity:
+      name: Radiator Climate Entity
+      description: The climate entity of the radiator valve.
+      selector:
+        entity:
+          domain: climate
+    room_temperature_sensor:
+      name: Room Temperature Sensor
+      description: The sensor providing the calibrated room temperature.
+      selector:
+        entity:
+          domain: sensor
+    radiator_offset_number:
+      name: Radiator Offset Number
+      description: The number entity for the radiator valve offset.
+      selector:
+        entity:
+          domain: number
+
+trigger:
+  - platform: state
+    entity_id: !input room_temperature_sensor
+  - platform: state
+    entity_id: !input climate_entity
+
+condition: []
+
+action:
+  - service: number.set_value
+    target:
+      entity_id: !input radiator_offset_number
+    data:
+      value: >
+        {% set room_temperature = states(!input room_temperature_sensor) | float %}
+        {% set radiator_temperature = state_attr(!input climate_entity, 'current_temperature') | float %}
+        {% set radiator_temperature_offset = states(!input radiator_offset_number) | float %}
+        {{ room_temperature - (radiator_temperature - radiator_temperature_offset) }}
+
+mode: single
