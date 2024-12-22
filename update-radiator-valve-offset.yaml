@@ -32,12 +32,13 @@ trigger:
 
 condition: []
 
-action:
-  - service: number.set_value
+actions:
+  - action: number.set_value
+    metadata: {}
     target:
       entity_id: !input radiator_offset_number
     data:
-      value: >-
+      value: >
         {% set room_temperature = states(!input room_temperature_sensor.entity_id) | float %}
         {% set radiator_temperature = state_attr(!input climate_entity.entity_id, 'current_temperature') | float %}
         {% set radiator_temperature_offset = states(!input radiator_offset_number.entity_id) | float %}
