@@ -25,13 +25,29 @@ blueprint:
         entity:
           domain: number
 
-trigger:
-  - platform: state
-    entity_id: !input room_temperature_sensor
-  - platform: state
-    entity_id: !input climate_entity
+triggers:
+  - trigger: state
+    entity_id:
+      - !input room_temperature_sensor
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  - trigger: state
+    entity_id:
+      - !input climate_entity
+    attribute: current_temperature
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
 
-condition: []
+conditions:
+  - condition: template
+    value_template: >-
+      {{ (as_timestamp(now()) -
+      as_timestamp(state_attr('automation.andrzej_update_radiator_valve_offset',
+      'last_triggered')) | default(0)) > 10 }}
 
 action:
   - variables:
