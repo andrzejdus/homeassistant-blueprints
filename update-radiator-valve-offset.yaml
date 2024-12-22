@@ -40,7 +40,7 @@ action:
       radiator_temperature_offset_number_entity: !input radiator_offset_number
   - service: logbook.log
     data:
-      entity_id: automation.update_radiator_valve_offset_blueprint
+      entity_id: trigger.entity_id
       name: Update Radiator Valve Offset
       message: >-
         {% set room_temperature = states(room_temperature_sensor_entity) | float %}
