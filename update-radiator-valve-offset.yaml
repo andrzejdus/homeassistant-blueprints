@@ -37,11 +37,17 @@ action:
       room_temperature: "{{ states(input.room_temperature_sensor) | float }}"
       radiator_temperature: "{{ state_attr(input.climate_entity, 'current_temperature') | float }}"
       radiator_temperature_offset: "{{ states(input.radiator_offset_number) | float }}"
+      new_radiator_temperature_offset: "{{ room_temperature - (radiator_temperature - radiator_temperature_offset) }}"
+  - service: logbook.log
+    data:
+      entity_id: automation.update_radiator_valve_offset_blueprint
+      name: Update Radiator Valve Offset
+      message: >-
+        New offset {{ new_radiator_temperature_offset }}. Calculated from room temperature {{ room_temperature }}, radiator temperature {{ radiator_temperature }}, radiator temperature offset {{ radiator_temperature_offset }} [{{ room_temperature }} - ({{ radiator_temperature }} - {{ radiator_temperature_offset }})]
   - service: number.set_value
     target:
       entity_id: !input radiator_offset_number
     data:
-      value: >-
-        {{ room_temperature - (radiator_temperature - radiator_temperature_offset) }}
+      value: {{ new_radiator_temperature_offset }}
 
 mode: single
