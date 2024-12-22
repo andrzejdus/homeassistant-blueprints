@@ -47,7 +47,11 @@ action:
         {% set radiator_temperature = state_attr(room_temperature_sensor_entity, 'current_temperature') | float %}
         {% set radiator_temperature_offset = states(radiator_temperature_offset_number_entity) | float %}
         {% set new_radiator_temperature_offset = room_temperature - (radiator_temperature - radiator_temperature_offset) %}
-        New offset {{ new_radiator_temperature_offset }}. Calculated from room temperature {{ room_temperature }}, radiator temperature {{ radiator_temperature }}, radiator temperature offset {{ radiator_temperature_offset }} [{{ room_temperature }} - ({{ radiator_temperature }} - {{ radiator_temperature_offset }})]
+        New offset {{ new_radiator_temperature_offset }}.
+        Calculated from room temperature {{ room_temperature }},
+        radiator temperature {{ radiator_temperature }},
+        radiator temperature offset {{ radiator_temperature_offset }}
+        [{{ room_temperature }} - ({{ radiator_temperature }} - {{ radiator_temperature_offset }})]
   - service: number.set_value
     target:
       entity_id: !input radiator_offset_number
