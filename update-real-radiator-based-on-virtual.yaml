@@ -34,10 +34,6 @@ blueprint:
           max: 50
           step: 1
 
-defaults:
-  off_temperature: 10
-  on_temperature: 30
-
 trigger:
   - platform: state
     entity_id: !input virtual_thermostat_on_off
