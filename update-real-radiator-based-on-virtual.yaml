@@ -10,10 +10,10 @@ blueprint:
         entity:
           domain: input_boolean
     real_radiator:
-      name: Real Radiator Device
+      name: Real Radiator Thermostat Entity
       description: The climate device to control the real radiator.
       selector:
-        device:
+        entity:
           integration: climate
     off_temperature:
       name: Real Radiator Off Temperature
@@ -55,7 +55,7 @@ action:
             data:
               temperature: !input off_temperature
             target:
-              device_id: !input real_radiator
+              entity_id: !input real_radiator
       - conditions:
           - condition: state
             entity_id: !input virtual_thermostat_on_off
@@ -65,5 +65,5 @@ action:
             data:
               temperature: !input on_temperature
             target:
-              device_id: !input real_radiator
+              entity_id: !input real_radiator
 mode: single
