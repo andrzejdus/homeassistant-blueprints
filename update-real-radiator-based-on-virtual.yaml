@@ -14,7 +14,7 @@ blueprint:
       description: The climate device to control the real radiator.
       selector:
         entity:
-          integration: climate
+          domain: climate
     off_temperature:
       name: Real Radiator Off Temperature
       description: Temperature to set when the virtual radiator is off.
