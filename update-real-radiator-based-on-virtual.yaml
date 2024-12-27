@@ -10,7 +10,7 @@ blueprint:
         entity:
           domain: input_boolean
     real_radiator:
-      name: Real Radiator Thermostat Entity
+      name: Real Radiator Climate/Thermostat Entity
       description: The climate device to control the real radiator.
       selector:
         entity:
