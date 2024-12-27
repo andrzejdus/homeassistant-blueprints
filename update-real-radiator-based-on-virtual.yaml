@@ -1,0 +1,69 @@
+blueprint:
+  name: Update real radiator based on virtual one
+  description: Updates the real radiator temperature based on the state of a virtual heating input.
+  domain: automation
+  input:
+    virtual_thermostat_on_off:
+      name: Virtual Thermostat Heating Input
+      description: The input boolean that represents the virtual radiator heating state. Should be controled by generic thermostat.
+      selector:
+        entity:
+          domain: input_boolean
+    real_radiator:
+      name: Real Radiator Device
+      description: The climate device to control the real radiator.
+      selector:
+        device:
+          integration: climate
+    off_temperature:
+      name: Real Radiator Off Temperature
+      description: Temperature to set when the virtual radiator is off.
+      default: 10
+      selector:
+        number:
+          min: 5
+          max: 50
+          step: 1
+    on_temperature:
+      name: Real Radiator On Temperature
+      description: Temperature to set when the virtual radiator is on.
+      default: 30
+      selector:
+        number:
+          min: 5
+          max: 50
+          step: 1
+
+defaults:
+  off_temperature: 10
+  on_temperature: 30
+
+trigger:
+  - platform: state
+    entity_id: !input virtual_thermostat_on_off
+
+condition: []
+
+action:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: !input virtual_thermostat_on_off
+            state: "off"
+        sequence:
+          - service: climate.set_temperature
+            data:
+              temperature: !input off_temperature
+            target:
+              device_id: !input real_radiator
+      - conditions:
+          - condition: state
+            entity_id: !input virtual_thermostat_on_off
+            state: "on"
+        sequence:
+          - service: climate.set_temperature
+            data:
+              temperature: !input on_temperature
+            target:
+              device_id: !input real_radiator
+mode: single
